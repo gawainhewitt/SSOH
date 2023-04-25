@@ -27,9 +27,15 @@ void checkTouch() {
 
     for (uint8_t i=0; i < numberOfSensors; i++) {
         if ((currtouched1 & _BV(i)) && !(lasttouched1 & _BV(i)) ) {
-        Serial.print(i); Serial.println(" touched of A");
+          Serial.print(i); Serial.println(" touched of A");
+          fade1.fadeIn(100);
+        }
+        if (!(currtouched1 & _BV(i)) && (lasttouched1 & _BV(i)) ) {
+          Serial.print(i); Serial.println(" released of A");
+          fade1.fadeOut(100);
         }
     }
 
     lasttouched1 = currtouched1;
+
 }

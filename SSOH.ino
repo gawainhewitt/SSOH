@@ -6,10 +6,10 @@ https://github.com/gawainhewitt
 */
 
 #include "constants.h"
-#include "mpr121.h"
 #include "reboot.h"
 #include "realTimeClock.h"
 #include "playWav.h"
+#include "mpr121.h"
 
 void setup() {
     Wire1.begin();
