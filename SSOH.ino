@@ -8,11 +8,44 @@ https://github.com/gawainhewitt
 #include "constants.h"
 #include "mpr121.h"
 #include "reboot.h"
+#include "RTClib.h"
+#include "playWav.h"
+
+RTC_DS3231 rtc;
+
+char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+
 
 void setup() {
-    Serial.begin(9600);
+    Wire1.begin();
+    Serial.begin(57600);
     init_mpr121();
+    setupSound();
     pinMode(rebootButton, INPUT_PULLUP);
+
+    if (! rtc.begin(&Wire1)) {
+    Serial.println("Couldn't find RTC");
+    Serial.flush();
+    while (1) delay(10);
+  }
+
+  if (rtc.lostPower()) {
+    Serial.println("RTC lost power, let's set the time!");
+    // When time needs to be set on a new device, or after a power loss, the
+    // following line sets the RTC to the date & time this sketch was compiled
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    // This line sets the RTC with an explicit date & time, for example to set
+    // January 21, 2014 at 3am you would call:
+    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  }
+
+  // When time needs to be re-set on a previously configured device, the
+  // following line sets the RTC to the date & time this sketch was compiled
+  // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  // This line sets the RTC with an explicit date & time, for example to set
+  // January 21, 2014 at 3am you would call:
+  // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
 }
 
 void loop() {
@@ -32,21 +65,15 @@ void loop() {
 
   lasttouched1 = currtouched1;
 
-  return;
+  DateTime now = rtc.now();
 
-    // debugging info, what
-  Serial.print("\t\t\t\t\t\t\t\t\t\t\t\t\t 0x"); Serial.println(mprBoard_A.touched(), HEX);
-  Serial.print("Filt: ");
-  for (uint8_t i=0; i<12; i++) {
-    Serial.print(mprBoard_A.filteredData(i)); Serial.print("\t");
-  }
-  Serial.println();
-  Serial.print("Base: ");
-  for (uint8_t i=0; i<12; i++) {
-    Serial.print(mprBoard_A.baselineData(i)); Serial.print("\t");
-  }
+  Serial.print(now.hour(), DEC);
+    
   Serial.println();
   
-  // put a delay so it isn't overwhelming
-  delay(100);
+  if(now.hour() > installationStartTime - 1) {
+    if(now.hour() < installationEndTime) {
+      playFiles();  
+    }
+  }
 }
