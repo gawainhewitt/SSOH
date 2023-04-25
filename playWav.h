@@ -58,7 +58,7 @@ void playFile(const char *filename)
   }
 }
 
-String tracks[numberOfTracks] = {"BEING.WAV", "CELESTIAL-LIFT.WAV", "CRAMLINGTON.WAV", "DIFFICULT-FEELINGS.WAV", "DOCTOR.WAV", "EAGLE-WARD.WAV", "CELESTIAL-LIFT2.WAV", "LILLIE-ROOM.WAV", "SPIRIT.WAV", "STAIR-PIECE.WAV"};
+String tracks[numberOfTracks] = {"LILLIE-ROOM.WAV", "CELESTIAL-LIFT.WAV", "CRAMLINGTON.WAV", "DIFFICULT-FEELINGS.WAV", "DOCTOR.WAV", "EAGLE-WARD.WAV", "CELESTIAL-LIFT2.WAV", "SPIRIT.WAV", "STAIR-PIECE.WAV", "BEING.WAV"};
 
 void playFiles() {
   for(int i = 0; i < numberOfTracks; i++){

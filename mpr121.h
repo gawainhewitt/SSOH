@@ -21,3 +21,15 @@ void init_mpr121()
     mprBoard_A.writeRegister(MPR121_FDLF, 0x78);
     mprBoard_A.writeRegister(MPR121_ECR, 0x8F); //start board
 }
+
+void checkTouch() {
+    currtouched1 = mprBoard_A.touched();
+
+    for (uint8_t i=0; i < numberOfSensors; i++) {
+        if ((currtouched1 & _BV(i)) && !(lasttouched1 & _BV(i)) ) {
+        Serial.print(i); Serial.println(" touched of A");
+        }
+    }
+
+    lasttouched1 = currtouched1;
+}
