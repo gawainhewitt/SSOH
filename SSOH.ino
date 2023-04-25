@@ -28,9 +28,7 @@ void loop() {
 
   DateTime now = rtc.now();
 
-  Serial.print(now.hour(), DEC);
-    
-  Serial.println();
+  Serial.println(now.hour(), DEC);
   
   if(now.hour() > installationStartTime - 1) {
     if(now.hour() < installationEndTime) {
