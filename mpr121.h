@@ -9,6 +9,7 @@ uint16_t currtouched1 = 0;
 
 void init_mpr121()
 {
+
     if (!mprBoard_A.begin(0x5A)) {
     Serial.println("MPR121 A not found, check wiring?");
     while (1);
@@ -16,7 +17,7 @@ void init_mpr121()
     Serial.println("MPR121 A found!");
 
     mprBoard_A.writeRegister(MPR121_ECR, 0x00); // stop board
-    mprBoard_A.setThreshholds(16, 6);   //set sensitivity - also note spelling mistake
+    mprBoard_A.setThreshholds(40, 6);   //set sensitivity - also note spelling mistake
     mprBoard_A.writeRegister(MPR121_FDLF, 0x78);
     mprBoard_A.writeRegister(MPR121_ECR, 0x8F); //start board
 }
